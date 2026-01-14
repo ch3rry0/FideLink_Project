@@ -1,5 +1,6 @@
 # Docker
 docker/.env
+docker-compose.yml
 
 # MongoDB
 *.log
