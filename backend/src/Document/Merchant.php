@@ -14,6 +14,17 @@ class Merchant
     private ?string $name = null;
 
     #[MongoDB\Field(type: 'string')]
+    #[MongoDB\UniqueIndex]
+    private ?string $merchant_id = null;
+
+    #[MongoDB\Field(type: 'string')]
+    #[MongoDB\UniqueIndex]
+    private ?string $email = null;
+
+    #[MongoDB\Field(type: 'string')]
+    private ?string $password = null;
+
+    #[MongoDB\Field(type: 'string')]
     private ?string $pfp = null;
 
     #[MongoDB\EmbedOne(targetDocument: Location::class)]
@@ -51,6 +62,39 @@ class Merchant
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getMerchantId(): ?string
+    {
+        return $this->merchant_id;
+    }
+
+    public function setMerchantId(string $merchant_id): self
+    {
+        $this->merchant_id = $merchant_id;
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
         return $this;
     }
 

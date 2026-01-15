@@ -59,8 +59,8 @@ class CustomerController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['name']) || !isset($data['fdl_id']) || !isset($data['email'])) {
-            return $this->json(['error' => 'Name, fdl_id and email are required'], Response::HTTP_BAD_REQUEST);
+        if (!isset($data['name']) || !isset($data['fdl_id']) || !isset($data['email']) || !isset($data['password'])) {
+            return $this->json(['error' => 'Name, fdl_id, email and password are required'], Response::HTTP_BAD_REQUEST);
         }
 
         // Vérifier si le fdl_id existe déjà
@@ -73,6 +73,8 @@ class CustomerController extends AbstractController
         $customer->setName($data['name']);
         $customer->setFdlId($data['fdl_id']);
         $customer->setEmail($data['email']);
+        $customer->setPassword($data['password']);
+        $customer->setAge($data['age'] ?? null);
         $customer->setPfp($data['pfp'] ?? null);
         $customer->setPointsBal($data['pointsBal'] ?? 0);
 
@@ -98,6 +100,12 @@ class CustomerController extends AbstractController
         }
         if (isset($data['email'])) {
             $customer->setEmail($data['email']);
+        }
+        if (isset($data['password'])) {
+            $customer->setPassword($data['password']);
+        }
+        if (isset($data['age'])) {
+            $customer->setAge($data['age']);
         }
         if (isset($data['pfp'])) {
             $customer->setPfp($data['pfp']);
@@ -133,6 +141,7 @@ class CustomerController extends AbstractController
             'name' => $customer->getName(),
             'fdl_id' => $customer->getFdlId(),
             'email' => $customer->getEmail(),
+            'age' => $customer->getAge(),
             'pfp' => $customer->getPfp(),
             'pointsBal' => $customer->getPointsBal(),
             'createdAt' => $customer->getCreatedAt()?->format('Y-m-d H:i:s'),

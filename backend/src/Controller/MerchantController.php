@@ -43,17 +43,44 @@ class MerchantController extends AbstractController
         return $this->json($this->serializeMerchant($merchant));
     }
 
+    #[Route('/merchant/{merchant_id}', name: 'show_by_merchant_id', methods: ['GET'])]
+    public function showByMerchantId(string $merchant_id): JsonResponse
+    {
+        $merchant = $this->dm->getRepository(Merchant::class)->findOneBy(['merchant_id' => $merchant_id]);
+
+        if (!$merchant) {
+            return $this->json(['error' => 'Merchant not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($this->serializeMerchant($merchant));
+    }
+
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['name'])) {
-            return $this->json(['error' => 'Name is required'], Response::HTTP_BAD_REQUEST);
+        if (!isset($data['name']) || !isset($data['merchant_id']) || !isset($data['email']) || !isset($data['password'])) {
+            return $this->json(['error' => 'Name, merchant_id, email and password are required'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Vérifier si le merchant_id existe déjà
+        $existingMerchantId = $this->dm->getRepository(Merchant::class)->findOneBy(['merchant_id' => $data['merchant_id']]);
+        if ($existingMerchantId) {
+            return $this->json(['error' => 'Merchant ID already exists'], Response::HTTP_CONFLICT);
+        }
+
+        // Vérifier si l'email existe déjà
+        $existing = $this->dm->getRepository(Merchant::class)->findOneBy(['email' => $data['email']]);
+        if ($existing) {
+            return $this->json(['error' => 'Email already exists'], Response::HTTP_CONFLICT);
         }
 
         $merchant = new Merchant();
         $merchant->setName($data['name']);
+        $merchant->setMerchantId($data['merchant_id']);
+        $merchant->setEmail($data['email']);
+        $merchant->setPassword($data['password']);
         $merchant->setPfp($data['pfp'] ?? null);
         $merchant->setBio($data['bio'] ?? null);
         $merchant->setPointVal($data['pointVal'] ?? 1.0);
@@ -87,6 +114,12 @@ class MerchantController extends AbstractController
 
         if (isset($data['name'])) {
             $merchant->setName($data['name']);
+        }
+        if (isset($data['email'])) {
+            $merchant->setEmail($data['email']);
+        }
+        if (isset($data['password'])) {
+            $merchant->setPassword($data['password']);
         }
         if (isset($data['pfp'])) {
             $merchant->setPfp($data['pfp']);
@@ -135,6 +168,8 @@ class MerchantController extends AbstractController
         return [
             'id' => $merchant->getId(),
             'name' => $merchant->getName(),
+            'merchant_id' => $merchant->getMerchantId(),
+            'email' => $merchant->getEmail(),
             'pfp' => $merchant->getPfp(),
             'loc' => $location ? [
                 'address' => $location->getAddress(),

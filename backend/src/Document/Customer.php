@@ -21,6 +21,12 @@ class Customer
     private ?string $email = null;
 
     #[MongoDB\Field(type: 'string')]
+    private ?string $password = null;
+
+    #[MongoDB\Field(type: 'int')]
+    private ?int $age = null;
+
+    #[MongoDB\Field(type: 'string')]
     private ?string $pfp = null;
 
     #[MongoDB\Field(type: 'float')]
@@ -71,6 +77,28 @@ class Customer
     public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
         return $this;
     }
 
