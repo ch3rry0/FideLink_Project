@@ -1,0 +1,55 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monoton%26display=swap');
+    .logo-text {
+      font-family: 'Monoton', cursive;
+      font-size: 300px;
+      fill: url(#neonOrange);
+      filter: url(#glow);
+    }
+    .logo-text-d {
+      font-family: 'Monoton', cursive;
+      font-size: 300px;
+      fill="#000000"
+      stroke="#FF4500"
+      stroke-width="2"
+    }
+  </style>
+  <!-- Definitions for Gradients and Shapes -->
+  <defs>
+    <!-- Digital Orange Gradient -->
+    <linearGradient id="neonOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- The "Cyber Cut" Clip Path: Cuts the corners of the letters -->
+    <clipPath id="techCut">
+      <polygon points="20,0 500,0 500,480 480,500 0,500 0,20" />
+    </clipPath>
+
+    <!-- Glow Filter for extra futuristic feel -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!--<rect width="100%" height="100%" fill="#121212" rx="15" />-->
+
+  <!-- Main Logo Group -->
+  <g clip-path="url(#techCut)">
+      <!-- Letter D -->
+    <text x="125" y="370" class="logo-text-d">
+    D
+    </text>
+    <!-- Letter F -->
+    <text x="35" y="370" class="logo-text">
+    F
+    </text>
+
+    <!-- Letter L -->
+    <text x="295" y="370" class="logo-text">
+    L
+    </text>
+  </g>
+</svg>
