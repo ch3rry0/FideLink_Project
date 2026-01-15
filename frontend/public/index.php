@@ -27,37 +27,9 @@
     </style>
 </head>
 <body class="bg-white" x-data="{ menuOpen: false, scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 })" @keydown.escape="menuOpen = false">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md transition-all duration-300" :class="scrolled ? 'h-16' : 'h-[90px]'">
-        <div class="h-full flex items-center justify-center px-8">
-            <div class="flex items-center justify-center">
-                <img src="img/FDL_logo.svg" alt="FideLink Logo" class="transition-all duration-300" :class="scrolled ? 'h-[90px]' : 'h-[140px]'">
-            </div>
-            <button @click="menuOpen = !menuOpen" class="fixed w-12 h-12 bg-black rounded-lg flex flex-col items-center justify-center gap-1.5 z-50 transition-all duration-300 hover:bg-primary-orange" :class="{ 'right-4': true, 'md:right-[280px] lg:right-[350px]': menuOpen, 'top-4': !scrolled, 'top-2': scrolled }" aria-label="Menu">
-                <span class="w-6 h-0.5 bg-white rounded transition-all duration-300" :class="menuOpen ? 'rotate-45 translate-y-2' : ''"></span>
-                <span class="w-6 h-0.5 bg-white rounded transition-all duration-300" :class="menuOpen ? 'opacity-0' : ''"></span>
-                <span class="w-6 h-0.5 bg-white rounded transition-all duration-300" :class="menuOpen ? '-rotate-45 -translate-y-2' : ''"></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Menu latéral -->
-    <div class="fixed top-0 w-full md:w-[350px] h-screen bg-gradient-to-br from-black to-gray-900 z-40 p-6 md:p-10 pt-24 md:pt-28 flex flex-col justify-between transition-all duration-400" :class="menuOpen ? 'right-0' : '-right-full md:-right-[350px]'">
-        <ul class="space-y-6">
-            <li><a @click="menuOpen = false" href="#accueil" class="text-white text-xl md:text-2xl font-medium hover:text-primary-orange transition-all duration-300 inline-block hover:translate-x-3">Accueil</a></li>
-            <li><a @click="menuOpen = false" href="#a-propos" class="text-white text-xl md:text-2xl font-medium hover:text-primary-orange transition-all duration-300 inline-block hover:translate-x-3">À propos</a></li>
-            <li><a @click="menuOpen = false" href="#comment-ca-marche" class="text-white text-xl md:text-2xl font-medium hover:text-primary-orange transition-all duration-300 inline-block hover:translate-x-3">Comment ça marche</a></li>
-            <li><a @click="menuOpen = false" href="#commercants" class="text-white text-xl md:text-2xl font-medium hover:text-primary-orange transition-all duration-300 inline-block hover:translate-x-3">Commerçants partenaires</a></li>
-            <li><a @click="menuOpen = false" href="#contact" class="text-white text-xl md:text-2xl font-medium hover:text-primary-orange transition-all duration-300 inline-block hover:translate-x-3">Contact</a></li>
-        </ul>
-        <div class="flex flex-col gap-4 mt-8">
-            <a href="inscription.html" class="px-6 py-4 text-center bg-primary-orange text-white rounded-lg font-semibold hover:bg-secondary-orange transition-all duration-300 hover:-translate-y-1">S'inscrire</a>
-            <a href="connexion.html" class="px-6 py-4 text-center bg-transparent text-white border-2 border-primary-orange rounded-lg font-semibold hover:bg-primary-orange transition-all duration-300 hover:-translate-y-1">Se connecter</a>
-        </div>
-    </div>
-
-    <!-- Overlay pour fermer le menu -->
-    <div @click="menuOpen = false" class="fixed inset-0 bg-black bg-opacity-70 z-30 transition-opacity duration-300" :class="menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'"></div>
+    
+    <?php include '../components/header.php'; ?>
+    <?php include '../components/menu.php'; ?>
 
     <!-- Contenu principal -->
     <main>
@@ -71,7 +43,7 @@
                     Un programme de points mutualisé entre tous vos commerçants préférés
                 </p>
                 <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
-                    <a href="inscription.html" class="px-8 py-4 bg-primary-orange text-white rounded-lg font-semibold text-lg hover:bg-secondary-orange transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary-orange/30">Commencer maintenant</a>
+                    <a href="inscription.php" class="px-8 py-4 bg-primary-orange text-white rounded-lg font-semibold text-lg hover:bg-secondary-orange transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary-orange/30">Commencer maintenant</a>
                     <a href="#comment-ca-marche" class="px-8 py-4 bg-black text-white rounded-lg font-semibold text-lg hover:bg-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">En savoir plus</a>
                 </div>
             </div>
@@ -156,47 +128,12 @@
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-4xl lg:text-5xl font-bold mb-6">Rejoignez FideLink dès aujourd'hui</h2>
                 <p class="text-xl lg:text-2xl mb-10">Commencez à accumuler des points et profitez des avantages</p>
-                <a href="inscription.html" class="inline-block px-12 py-5 bg-black text-white rounded-lg font-bold text-xl hover:bg-gray-800 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">S'inscrire gratuitement</a>
+                <a href="inscription.php" class="inline-block px-12 py-5 bg-black text-white rounded-lg font-bold text-xl hover:bg-gray-800 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">S'inscrire gratuitement</a>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-black text-white py-16 px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-10">
-                <div>
-                    <img src="img/FDL_logo.svg" alt="FideLink Logo" class="h-20 mb-4">
-                    <p class="text-gray-400">Le programme de fidélité nouvelle génération</p>
-                </div>
-                <div>
-                    <h4 class="text-primary-orange font-bold text-lg mb-5">Navigation</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#accueil" class="text-gray-400 hover:text-primary-orange transition-colors">Accueil</a></li>
-                        <li><a href="#a-propos" class="text-gray-400 hover:text-primary-orange transition-colors">À propos</a></li>
-                        <li><a href="#comment-ca-marche" class="text-gray-400 hover:text-primary-orange transition-colors">Comment ça marche</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-primary-orange font-bold text-lg mb-5">Compte</h4>
-                    <ul class="space-y-3">
-                        <li><a href="inscription.html" class="text-gray-400 hover:text-primary-orange transition-colors">S'inscrire</a></li>
-                        <li><a href="connexion.html" class="text-gray-400 hover:text-primary-orange transition-colors">Se connecter</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-primary-orange font-bold text-lg mb-5">Légal</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-primary-orange transition-colors">Mentions légales</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary-orange transition-colors">Politique de confidentialité</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary-orange transition-colors">CGU</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2026 FideLink. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
+    <?php include '../components/footer.php'; ?>
+
 </body>
 </html>
