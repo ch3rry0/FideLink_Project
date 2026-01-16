@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Document\Transaction;
 use App\Document\Customer;
+use App\Document\Merchant;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -140,10 +141,26 @@ class TransactionController extends AbstractController
 
     private function serializeTransaction(Transaction $transaction): array
     {
+        // Récupérer les informations du client
+        $customerName = null;
+        $customer = $this->dm->getRepository(Customer::class)->findOneBy(['fdl_id' => $transaction->getCustomerId()]);
+        if ($customer) {
+            $customerName = $customer->getName();
+        }
+
+        // Récupérer les informations du commerçant
+        $merchantName = null;
+        $merchant = $this->dm->getRepository(Merchant::class)->findOneBy(['merchant_id' => $transaction->getMerchantId()]);
+        if ($merchant) {
+            $merchantName = $merchant->getName();
+        }
+
         return [
             'id' => $transaction->getId(),
             'customer_id' => $transaction->getCustomerId(),
+            'customer_name' => $customerName,
             'merchant_id' => $transaction->getMerchantId(),
+            'merchant_name' => $merchantName,
             'type' => $transaction->getType(),
             'amount' => $transaction->getAmount(),
             'pts' => $transaction->getPts(),
