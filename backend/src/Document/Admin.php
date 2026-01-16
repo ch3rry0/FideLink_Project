@@ -4,20 +4,21 @@ namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-#[MongoDB\Document(collection: 'users')]
-class User
+#[MongoDB\Document(collection: 'admins')]
+class Admin
 {
     #[MongoDB\Id]
     private ?string $id = null;
 
     #[MongoDB\Field(type: 'string')]
-    private ?string $email = null;
-
-    #[MongoDB\Field(type: 'string')]
     private ?string $name = null;
 
     #[MongoDB\Field(type: 'string')]
-    private ?string $role = null;
+    #[MongoDB\UniqueIndex]
+    private ?string $email = null;
+
+    #[MongoDB\Field(type: 'string')]
+    private ?string $password = null;
 
     #[MongoDB\Field(type: 'date')]
     private ?\DateTime $createdAt = null;
@@ -27,20 +28,11 @@ class User
         $this->createdAt = new \DateTime();
     }
 
+    // Getters and Setters
+
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-        return $this;
     }
 
     public function getName(): ?string
@@ -54,14 +46,25 @@ class User
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getEmail(): ?string
     {
-        return $this->role;
+        return $this->email;
     }
 
-    public function setRole(string $role): self
+    public function setEmail(string $email): self
     {
-        $this->role = $role;
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
         return $this;
     }
 
